@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --neon-blue: #00f2ff;
+            --bg-dark: #0a0b10;
+            --card-bg: #161b22;
+            --text-main: #e6edf3;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+header {
+    width: 100%;
+    padding: 15px 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* This distributes the spacer, title, and logo evenly */
+    justify-content: space-between; 
+    border-bottom: 2px solid var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+    background-color: black;
+    box-sizing: border-box;
+}
+
+/* 1. Adjust the container width for both sides */
+.header-spacer, .header-logo {
+    width: 40px; /* Reduced from 50px to make the 'slot' smaller */
+     /* Changed from 40 to 0 to prevent the logo from squishing */
+}
+
+/* 2. Set the specific size of the logo image */
+.header-logo {
+    height: 20px; /* Reduced from 40px */
+    width: 20px;  /* Keeps the aspect ratio perfect */
+    margin-right: auto; /* Pushes the logo toward the left, away from the title */
+}
+
+/* 3. Ensure the spacer matches for perfect centering */
+.header-spacer {
+    width: 15px; /* Must match the .header-logo width exactly */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 5rem;
+    flex-grow: 1;
+    text-align: center; /* Centers the text within its flexible space */
+    white-space: nowrap; /* Prevents title from breaking into two lines */
+}
+.container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+.card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #30363d;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: #238636;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .sensor-row {
+            margin: 15px 0;
+        }
+
+        .bar-container {
+            background: #21262d;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--neon-blue);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .visualizer {
+            height: 300px;
+            background: #000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--neon-blue);
+            color: #58a6ff;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .full-width-status {
+            grid-column: 1 / -1; /* This makes it span across both columns */
+            background: var(--card-bg);
+            border: 1px solid var(--neon-blue);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            color: var(--neon-blue);
+            font-size: 20px; /* Specific font size requested */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #30363d;
+        }
+
+button:hover {
+            background: var(--neon-blue);
+            color: black;
+        }
+        .ecu-button {
+    text-decoration: none; /* Removes the underline */
+    color: var(--neon-blue);
+    border: 1px solid var(--neon-blue);
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: 0.3s ease;
+    display: inline-block;
+}
+
+.ecu-button:hover {
+    background: var(--neon-blue);
+    color: black;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+        
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="C:\Users\Work\Desktop\ECU\Junior\spring\measurements\project\website\ecu.png"  class="header">
+    <h1>MIMIC GLOVE <span style="font-weight: 400;"></span></h1>
+    <div class="header-actions">
+        <a href="https://ecu.edu.eg/" target="_blank" class="ecu-button">ECU</a>
+    </div>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h2>Finger Flexion</h2>
+        
+        <div class="sensor-row">
+            <span>Thumb</span>
+            <div class="bar-container"><div id="f1" class="bar-fill" style="width: 45%;"></div></div>
+        </div>
+        <div class="sensor-row">
+            <span>Index</span>
+            <div class="bar-container"><div id="f2" class="bar-fill" style="width: 80%;"></div></div>
+        </div>
+        <div class="sensor-row">
+            <span>Middle</span>
+            <div class="bar-container"><div id="f3" class="bar-fill" style="width: 20%;"></div></div>
+        </div>
+        <div class="sensor-row">
+            <span>Ring</span>
+            <div class="bar-container"><div id="f4" class="bar-fill" style="width: 10%;"></div></div>
+        </div>
+        <div class="sensor-row">
+            <span>Pinky</span>
+            <div class="bar-container"><div id="f5" class="bar-fill" style="width: 5%;"></div></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Orientation (IMU)</h2>
+        <div class="visualizer">
+            [ 3D HAND RENDER AREA ]
+        </div>
+        <div style="margin-top: 15px;">
+            <p>Pitch: <span id="pitch">0.0°</span></p>
+            <p>Roll: <span id="roll">0.0°</span></p>
+        </div>
+        <div class="controls">
+            <button onclick="calibrate()">Calibrate Sensors</button>
+            <button onclick="toggleLog()">Start Data Log</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateSensor(id, value) {
+        document.getElementById(id).style.width = value + "%";
+    }
+
+    function calibrate() {
+        alert("Calibrating... Keep hand in neutral position.");
+    }
+
+    setInterval(() => {
+        const mockVal = Math.floor(Math.random() * 100);
+        updateSensor('f2', mockVal);
+        document.getElementById('pitch').innerText = (Math.random() * 10).toFixed(2) + "°";
+    }, 1000);
+    // Replace with your ESP32 IP
+    const gateway = `ws://192.168.x.x:81/`; 
+    let socket;
+
+    // Movement to Text Map
+    const gestures = {
+        "0,1,0,0,0": "HELLO",
+        "0,1,1,0,0": "PEACE",
+        "1,1,1,1,1": "FIST CLOSED",
+        "0,0,0,0,0": "OPEN HAND"
+    };
+
+    function initWebSocket() {
+        socket = new WebSocket(gateway);
+        
+        socket.onmessage = function(event) {
+            const values = event.data.split(','); 
+
+            // Update Progress Bars
+            for(let i=0; i<5; i++) {
+                let percent = (parseFloat(values[i]) > 0) ? 100 : 0;
+                document.getElementById(`f${i+1}`).style.width = percent + "%";
+            }
+
+            // Update IMU
+            document.getElementById('pitch').innerText = parseFloat(values[6]).toFixed(1) + "°";
+            document.getElementById('roll').innerText = parseFloat(values[5]).toFixed(1) + "°";
+
+            // Update Translation (Movement -> Text)
+            let fingerKey = values.slice(0, 5).map(v => parseFloat(v) > 0 ? "1" : "0").join(",");
+            const statusDisplay = document.getElementById('translation-output');
+            
+            if (gestures[fingerKey]) {
+                statusDisplay.innerText = gestures[fingerKey];
+            } else {
+                statusDisplay.innerText = "MEASURING...";
+            }
+        };
+
+        socket.onclose = () => setTimeout(initWebSocket, 2000);
+    }
+
+    function calibrate() {
+        alert("Calibrating... Keep hand in neutral position.");
+    }
+
+    window.onload = initWebSocket;
+</script>
+
+
+</body>
+</html>
